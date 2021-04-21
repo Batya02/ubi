@@ -1,0 +1,162 @@
+{  
+      "1":  {
+                  "url":"https://youla.ru/web-api/auth/request_code", 
+                  "data":{}, 
+                  "arg":"phone", 
+                  "plus":"", 
+                  "format":false
+            }, 
+
+      "2":  {
+                  "url":"https://cloud.mail.ru/api/v2/notify/applink", 
+                  "json":{ 
+                          "api":2, "email":"emal", 
+                          "x-email":"x-email"
+                         }, 
+                  "arg":"phone", 
+                  "plus":"+", 
+                  "format":false
+            }, 
+
+      "3":  {
+                  "url":"https://lenta.com/api/v1/authentication/", 
+                  "json":{}, 
+                  "arg":"phone", 
+                  "plus":"", 
+                  "format":false
+            }, 
+
+      "4":  {
+                  "url":"https://mobile-api.qiwi.com/oauth/authorize", 
+                  "data":{"response_type":"urn:qiwi:oauth:response-type:confirmation-id", 
+                          "client_id": "android-qw", 
+                          "client_secret": "zAm4FKq9UnSe7id"
+                         }, 
+                  "arg":"username", 
+                  "plus":"", 
+                  "format":false
+            }, 
+
+      "5":  {
+                  "url":"https://api.sunlight.net/v3/customers/authorization/", 
+                  "data":{
+                         }, 
+                  "arg":"phone", 
+                  "plus":"", 
+                  "format":false
+            }, 
+      
+      "6":  {
+                  "url":"https://www.citilink.ru/registration/confirm/phone/+{0}/", 
+                  "format":true
+            }, 
+
+      "7":  {
+                  "url":"https://app-api.kfc.ru/api/v1/common/auth/send-validation-sms", 
+                  "json":{},
+                  "arg":"phone",
+                  "plus":"+",
+                  "format":false
+            }, 
+      
+      "8":  {
+                  "url":"https://api.tinkoff.ru/v1/sign_up", 
+                  "data":{}, 
+                  "arg":"phone", 
+                  "plus":"+", 
+                  "format":false
+            }, 
+      
+      "9":  {
+                  "url":"https://prod.tvh.mts.ru/tvh-public-api-gateway/public/rest/general/send-code?msisdn={0}", 
+                  "format":true
+            }, 
+      
+      "10": {
+                  "url":"https://api.delitime.ru/api/v2/signup", 
+                  "data":{"SignupForm[device_type]": 3},
+                  "arg":"SignupForm[username]", 
+                  "plus":"", 
+                  "format":false
+            }, 
+
+      "11": {
+                  "url":"https://www.icq.com/smsreg/requestPhoneValidation.php", 
+                  "data":{"locale":"en", "countryCode":"ru", 
+                          "version":"1", "k":"ic1rtwz1s1Hj1O0r", 
+                          "r":"46763"
+                  },
+                  "arg":"msisdn", 
+                  "plus":"", 
+                  "format":false
+            }, 
+      
+      "12": {
+                  "url":"https://ok.ru/dk?cmd=AnonymRegistrationEnterPhone&st.cmd=anonymRegistrationEnterPhone", 
+                  "data":{}, 
+                  "arg":"st.r.phone", 
+                  "plus":"+", 
+                  "format":false
+            }, 
+      
+      "13": {
+                  "url":"https://passport.twitch.tv/register?", 
+                  "json":{
+                        "birthday":{
+                              "day": 11, "month":11, "year":1999
+                             },
+                        "client_id":"kd1unb4b3q4t58fwlpcbzcbnm76a8fp", 
+                        "include_verification_code":true, 
+                        "password":"fG11xztk",
+                        "username":"agsagahsha"
+                  }, 
+                  "arg":"phone_number", 
+                  "plus":"", 
+                  "format":false
+            }, 
+      
+      "14": {
+                  "url":"https://eda.yandex/api/v1/user/request_authentication_code", 
+                  "json":{}, 
+                  "arg":"phone_number", 
+                  "plus":"+", 
+                  "format":false
+            }, 
+      
+      "15": {
+                  "url":"https://my.telegram.org/auth/send_password", 
+                  "data":{}, 
+                  "arg":"phone", 
+                  "plus":"+", 
+                  "format":false
+            }, 
+      
+      "16": {
+                  "url":"https://m.tiktok.com/node/send/download_link", 
+                  "json":{"PhoneRegin":"UA", "language":"en", 
+                        "slideVerify":0, "page":{"af_adset_id":0, "pid":0}
+                         }, 
+                  "arg":"Mobile", 
+                  "plus":"", 
+                  "format":false
+            }, 
+      
+      "17": {
+                  "url":"https://oapi.raiffeisen.ru/api/sms-auth/public/v1.0/phone/code?number={0}",
+                  "format":true
+            },
+
+      "18": {
+                  "url":"https://ok.ru/dk?cmd=AnonymRegistrationEnterPhone&st.cmd=anonymRegistrationEnterPhone",
+                  "data":{},
+                  "arg":"st.r.phone",
+                  "plus":"+",
+                  "format":false
+            },
+
+      "19": {
+                  "url":"https://findclone.ru/register?phone=+{0}",
+                  "format":true
+            }
+
+}

@@ -1,0 +1,10 @@
+__pycache__/
+.vs/
+.vscode/
+database/
+old_db/
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
+config/

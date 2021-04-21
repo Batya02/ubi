@@ -1,0 +1,9 @@
+🤖Hello, I am the _Universal Info Bot_
+
+You can attack a number using the ➜ * Attack number * button. The button is at the bottom 👇
+1) You need to enter the phone number without the "+".
+2) Initially, 30 circles are given.
+3) 1 circle - run the number by service.
+4) Certain numbers may not respond to services.
+
+/usd - Find out the dollar rate 💵
