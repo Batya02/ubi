@@ -577,7 +577,7 @@ async def ru_attack_phone(message: types.Message):
         )
         globals.conn.execute(update_data)
 
-        await globals.bot.send_message(
+        await message.answer(
             user_id, 
             text=f"✅Вы зарегестрированы! Вам доступно 30 кругов."
             f"Нажмите еще раз на кнопку 💣Атаковать номер"
@@ -603,43 +603,46 @@ async def ru_attack_phone(message: types.Message):
 
             if my_data[3] == "None" and my_data[4] == "None":
 
-                await globals.bot.send_message(user_id, 
-                f"📄Информация о последней атаки ➜\n\n"
-                f"📌Вы еще не совершали атаку!\n\n"
-                f"☎️Введите номер телефона жертвы (79#########):", 
-                reply_markup=download_program)
+                await message.answer(
+                        f"📄Информация о последней атаке ➜\n\n"
+                        f"📌Вы еще не совершали атаку!\n\n"
+                        f"☎️Введите номер телефона жертвы⤵️", 
+                        reply_markup=download_program
+                )
                 await Userstate.attack_phone.set()
 
             else:
 
-                await globals.bot.send_message(user_id, 
-                f"📄Информация о последней атаки ➜\n\n"
-                f"📅🕰{date}\n"
-                f"📌Номер: `{my_data[3]}`\n"
-                f"⏱Осталось кругов: *{my_data[2]}*\n\n"
-                f"☎️Введите номер телефона жертвы (79#########):", 
-                reply_markup=download_program, parse_mode = "Markdown")
+                await message.answer(
+                        f"📄Информация о последней атаке ➜\n\n"
+                        f"🕰{date}\n"
+                        f"📌Номер: `{my_data[3]}`\n"
+                        f"⏱Осталось кругов: *{my_data[2]}*\n\n"
+                        f"☎️Введите номер телефона жертвы⤵️", 
+                        parse_mode = "Markdown"
+                )
                 await Userstate.attack_phone.set()
 
         else:
 
             if int(my_data[2]) == 0:
 
-                await globals.bot.send_message(user_id, 
-                f"📄Информация о последней атаки ➜\n\n📅🕰{date}\n"
-                f"📌Номер: `{my_data[3]}`\n"
-                f"⌛Статус: *Круги исчерпаны!*", 
-                reply_markup=download_program, parse_mode = "Markdown") 
+                await message.answer(
+                        f"📄Информация о последней атаке ➜\n\n📅🕰{date}\n"
+                        f"📌Номер: `{my_data[3]}`\n"
+                        f"⌛Статус: *Круги исчерпаны!*", 
+                        parse_mode = "Markdown"
+                ) 
                 await Userstate.try_try.set()   
 
             else:
 
                 if my_data[3] == "None" and my_data[4] == "None":
-                    await globals.bot.send_message(user_id, 
-                    f"📄Информация о последней атаки ➜\n\n"
-                    f"📌Вы еще не совершали атаку!\n\n"
-                    f"☎️Введите номер телефона жертвы (79#########):", 
-                    reply_markup=download_program)
+                    await message.answer( 
+                            f"📄Информация о последней атаке ➜\n\n"
+                            f"📌Вы еще не совершали атаку!\n\n"
+                            f"☎️Введите номер телефона жертвы⤵️", 
+                    )
                     await Userstate.attack_phone.set()
                 
                 else:
@@ -647,12 +650,13 @@ async def ru_attack_phone(message: types.Message):
                     date = dt.strptime(my_data[4], "%d-%m-%Y %H:%M:%S")
                     date = dt.strftime(date, "*%d-%m-%Y* *%H:%M:%S*")
 
-                    await globals.bot.send_message(user_id, 
-                    f"📄Информация о последней атаки ➜\n\n"
-                    f"📅🕰{date}\n📌Номер: `{my_data[3]}`\n"
-                    f"⏱Осталось кругов: *{my_data[2]}*\n\n"
-                    "☎️Введите номер телефона жертвы (79#########):", 
-                    reply_markup=download_program, parse_mode = "Markdown")
+                    await message.answer(
+                            f"📄Информация о последней атаке ➜\n\n"
+                            f"🕰{date}\n📌Номер: `{my_data[3]}`\n"
+                            f"⏱Осталось кругов: *{my_data[2]}*\n\n"
+                            "☎️Введите номер телефона жертвы⤵️", 
+                            parse_mode = "Markdown"
+                    )
                     await Userstate.attack_phone.set()
 
 @logger.catch
@@ -686,7 +690,7 @@ async def eng_attack_phone(message: types.Message):
         )
         globals.conn.execute(update_data)
 
-        await globals.bot.send_message(
+        await message.answer(
             user_id, 
             text=f"✅You are registered! You have 30 laps available."
             f"Click again on the button 💣Attack number"
@@ -712,11 +716,11 @@ async def eng_attack_phone(message: types.Message):
 
             if my_data[3] == "None" and my_data[4] == "None":
 
-                await globals.bot.send_message(user_id, 
-                f"📄Information about the last attack ➜\n\n"
-                f"📌You haven't made an attack yet!\n\n"
-                f"☎️Enter the victim's phone number (79#########):", 
-                reply_markup=download_program)
+                await message.answer(
+                        f"📄Information about the last attack ➜\n\n"
+                        f"📌You haven't made an attack yet!\n\n"
+                        f"☎️Enter the victim's phone number⤵️", 
+                )
                 await Userstate.attack_phone.set()
 
             else:
@@ -724,40 +728,43 @@ async def eng_attack_phone(message: types.Message):
                 date = dt.strptime(my_data[4], "%d-%m-%Y %H:%M:%S")
                 date = dt.strftime(date, "Date: *%d-%m-%Y* Time: *%H:%M:%S*")
                 
-                await globals.bot.send_message(user_id, 
-                f"📄Information about the last attack ➜\n\n"
-                f"📅🕰{date}\n📌Phone number: `{my_data[3]}`\n"
-                f"⏱Circles left: *{my_data[2]}*\n\n"
-                "Enter the victim's phone number (79#########):", 
-                reply_markup=download_program, parse_mode = "Markdown")
+                await message.answer(
+                        f"📄Information about the last attack ➜\n\n"
+                        f"🕰{date}\n📌Phone number: `{my_data[3]}`\n"
+                        f"⏱Circles left: *{my_data[2]}*\n\n"
+                        "Enter the victim's phone number⤵️", 
+                        parse_mode = "Markdown"
+                )
                 await Userstate.attack_phone.set()
         else:
 
             if int(my_data[2]) == 0:
-                await globals.bot.send_message(user_id, 
-                f"📄Information about the last attack ➜\n\n"
-                f"📅🕰{date}\n📌Phone number: `{my_data[3]}`\n"
-                "⌛Status: *The circles are gone!*", 
-                reply_markup=download_program, parse_mode = "Markdown") 
+                await message.answer(
+                        f"📄Information about the last attack ➜\n\n"
+                        f"🕰{date}\n📌Phone number: `{my_data[3]}`\n"
+                        "⌛Status: *The circles are gone!*", 
+                        parse_mode = "Markdown"
+                ) 
                 await Userstate.try_try.set()  
 
             else:
 
                 if my_data[3] == "None" and my_data[4] == "None":
-                    await globals.bot.send_message(user_id, 
-                    f"📄Information about the last attack ➜\n\n"
-                    f"📌You haven't made an attack yet!\n\n"
-                    f"☎️Enter the victim's phone number (79#########):", 
-                    reply_markup=download_program)
+                    await message.answer(
+                            f"📄Information about the last attack ➜\n\n"
+                            f"📌You haven't made an attack yet!\n\n"
+                            f"☎️Enter the victim's phone number⤵️", 
+                    )
                     await Userstate.attack_phone.set()
                 
                 else:
-                    await globals.bot.send_message(user_id, 
-                    f"📄Information about the last attack ➜\n\n"
-                    f"📅🕰{date}\n📌Phone number: `{my_data[3]}`\n"
-                    f"⏱Circles left: *{my_data[2]}*\n\n"
-                    "☎️Enter the victim's phone number (79#########):", 
-                    reply_markup=download_program, parse_mode = "Markdown")
+                    await message.answer(
+                        f"📄Information about the last attack ➜\n\n"
+                        f"🕰{date}\n📌Phone number: `{my_data[3]}`\n"
+                        f"⏱Circles left: *{my_data[2]}*\n\n"
+                        "☎️Enter the victim's phone number⤵️", 
+                        parse_mode = "Markdown"
+                    )
                     await Userstate.attack_phone.set()
 
 @logger.catch

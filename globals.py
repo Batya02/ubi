@@ -27,6 +27,7 @@ seconds:int = 0      #Counter variable
 my_class = None
 now_process:bool = True #Process T/F
 count_mailing:int = 0
+attack_country:str = None
 #-_-_-_-_-_-END-_-_-_-_-_-
 
 #-_-_-_-_-KEYBOARDS-_-_-_-_-

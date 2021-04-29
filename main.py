@@ -1,4 +1,5 @@
 import os 
+import re
 import json
 import asyncio
 import sqlite3
@@ -69,47 +70,39 @@ async def attack_phone(message: types.Message, state: FSMContext):
     if message.text in list(globals.rep_comm):
         await globals.rep_comm[message.text](message)
     else:
-        if not message.text.isdigit():
-            return await message.answer(
-                    f"🔁Некорректный ввод. "
-                    f"Введите только числа, без сторонних знаков и букв!", 
-                    reply=True)
-            
+        phone = re.sub("[^0-9]", "", message.text)
+
+        if phone.startswith("7") or phone.startswith("8"):
+            phone = f"7{phone[1:]}"
+            globals.attack_country = "ru"
+
+        elif phone.startswith("38"):
+            globals.attack_country = "uk"
+        
         else:
-            if int(message.text[:1]) != 7:
-                return await message.answer( 
-                        text="🇷🇺Поддерживаются номера только РФ!")
-            
-            elif message.text[:1] == "+":
-                return await message.answer(
-                        text="Номер нужно вводить без +")
+            return await message.answer("🔁Не удалось определить страну. Проверьте номер на корректность!", reply=True)
 
-            if len(message.text) != 11:
-                return await message.answer(
-                        text="Количество символов в номере не равняется 1️⃣1️⃣!")
- 
-            else: 
-                date = dt.strftime(dt.now(), "%d-%m-%Y %H:%M:%S")
+        date = dt.strftime(dt.now(), "%d-%m-%Y %H:%M:%S")
 
-                update_data = data_users_table.update().values(
-                    last_phone=message.text,
-                    last_date=date
-                ).where(data_users_table.c.user_id==message.from_user.id)
-                globals.conn.execute(update_data)
+        update_data = data_users_table.update().values(
+            last_phone=message.text,
+            last_date=date
+        ).where(data_users_table.c.user_id==message.from_user.id)
+        globals.conn.execute(update_data)
 
-                usl = InlineKeyboardMarkup(
-                    inline_keyboard = [
-                        [InlineKeyboardButton("⏹Остановить", 
-                        callback_data="Остановить")]
-                    ])
+        usl = InlineKeyboardMarkup(
+            inline_keyboard = [
+                [InlineKeyboardButton("⏹Остановить", 
+                callback_data="Остановить")]
+            ])
 
-                await globals.bot.send_message(message.chat.id, 
-                text="▶️Атака началась!\nНажмите кнопку для остановки атаки.", 
-                reply_markup = usl)
-                try:
-                    globals.my_class = Bomber(user_id=str(message.from_user.id))
-                    await globals.my_class.start(message.text, message.from_user.id)
-                except:pass
+        await message.answer(
+        text="▶️Атака началась!\nНажмите кнопку для остановки атаки.", 
+        reply_markup = usl)
+        try:
+            globals.my_class = Bomber(user_id=str(message.from_user.id))
+            await globals.my_class.start(message.text, message.from_user.id)
+        except:pass
 
 #Admin mailing ----------> ###################################################           
 @dp.message_handler(state = Userstate.send_messages, 

@@ -1,0 +1,75 @@
+{
+    "1":{
+            "url":"https://secure.online.ua/ajax/check_phone/",
+            "params":{}, 
+            "arg":"reg_phone", 
+            "plus":"+", 
+            "format":false
+        }, 
+
+    "2":{
+            "url":"https://uklon.com.ua/api/v1/account/code/send",
+            "json":{}, 
+            "arg":"phone", 
+            "plus":"", 
+            "format":false
+        }, 
+    "3":{
+            "url":"https://kasta.ua/api/v2/login/", 
+            "data":{}, 
+            "arg":"phone", 
+            "plus":"", 
+            "format":false
+        }, 
+    "4":{
+            "url":"https://izi.ua/api/auth/register", 
+            "data":{"name":"Павел"}, 
+            "arg":"phone", 
+            "plus":"+", 
+            "format":false
+        }, 
+    "5":{
+            "url":"https://stores-api.zakaz.ua/user/signup/", 
+            "json":{}, 
+            "arg":"phone", 
+            "plus":"", 
+            "format":false
+        }, 
+    "6":{
+            "url":"https://www.sportmaster.ua/?module=users&action=SendSMSReg&phone=+{0}", 
+            "format":true
+        }, 
+    "7":{
+            "url":"https://crm.getmancar.com.ua/api/veryfyaccount", 
+            "json":{
+                    "grant_type": "password",
+                    "client_id": "gcarAppMob",
+                    "client_secret": "SomeRandomCharsAndNumbersMobile"
+            }, 
+            "arg":"phone", 
+            "plus":"+", 
+            "format":false
+        }, 
+    "8":{
+            "url":"https://city24.ua/personalaccount/account/registration", 
+            "data":{}, 
+            "arg":"PhoneNumber", 
+            "plus":"", 
+            "format":false
+        }, 
+    "9":{
+            "url":"https://auth.multiplex.ua/login", 
+            "json":{}, 
+            "arg":"login", 
+            "plus":"", 
+            "format":false
+        }, 
+
+    "10":{
+            "url":"https://cabinet.planetakino.ua/service/sms", 
+            "params":{}, 
+            "arg":"phone", 
+            "plus":"", 
+            "format":false
+         }
+}
