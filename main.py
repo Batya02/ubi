@@ -20,10 +20,11 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.dispatcher.storage import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram.types import ( Message,
-                            ReplyKeyboardMarkup, KeyboardButton, 
-                            InlineKeyboardMarkup, InlineKeyboardButton
-                          )
+from aiogram.types import ( 
+        ReplyKeyboardMarkup, KeyboardButton, 
+        InlineKeyboardMarkup, InlineKeyboardButton, 
+        Message
+        )
 
 from db_models.User import all_users_table, data_users_table
 from sqlalchemy import select
