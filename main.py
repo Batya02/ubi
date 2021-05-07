@@ -85,20 +85,20 @@ async def attack_phone(message: types.Message, state: FSMContext):
         date = dt.strftime(dt.now(), "%d-%m-%Y %H:%M:%S")
 
         update_data = data_users_table.update().values(
-            last_phone=message.text,
-            last_date=date
+                last_phone=message.text, last_date=date
         ).where(data_users_table.c.user_id==message.from_user.id)
         globals.conn.execute(update_data)
 
         usl = InlineKeyboardMarkup(
             inline_keyboard = [
-                [InlineKeyboardButton("⏹Остановить", 
-                callback_data="Остановить")]
+                [InlineKeyboardButton(
+                    text="⏹Остановить", callback_data="Остановить")]
             ])
 
         await message.answer(
-        text="▶️Атака началась!\nНажмите кнопку для остановки атаки.", 
-        reply_markup = usl)
+                text="▶️Атака началась!\nНажмите кнопку для остановки атаки.", 
+                reply_markup = usl
+        )
         try:
             globals.my_class = Bomber(user_id=str(message.from_user.id))
             await globals.my_class.start(message.text, message.from_user.id)
@@ -214,34 +214,34 @@ async def send_message(message: types.Message, state:FSMContext):
         if language[0] == "None":
             lang_usl = InlineKeyboardMarkup(
                 inline_keyboard=[
-                    [InlineKeyboardButton(text="🇬🇧ENG", 
-                                                callback_data="ENG")], 
-                    [InlineKeyboardButton(text="🇷🇺RU", 
-                                                callback_data="RU")]
+                    [InlineKeyboardButton(
+                            text="🇬🇧ENG", callback_data="ENG")], 
+                    [InlineKeyboardButton(
+                            text="🇷🇺RU", callback_data="RU")]
                 ]
             )
 
-            await globals.bot.send_message(message.chat.id, 
-                    text="🌐Select the language\n"+\
-                         "🌐Выберите язык",
-                    reply_markup=lang_usl)
+            await message.answer(
+                    text="🌐Select the language\n"
+                    f"🌐Выберите язык",
+                    reply_markup=lang_usl
+            )
 
         else:
             #Отправка сообщения админу
-            await globals.bot.send_message(globals.config.chat_id, 
+            await message.answer(
                     text = f"User ID: <code>{str(message.from_user.id)}</code>\n"
-                           f"Username: @{str(message.from_user.username)}\n"
-                           f"Message: {message.text}", parse_mode="HTML")
+                    f"Username: @{str(message.from_user.username)}\n"
+                    f"Message: {message.text}", parse_mode="HTML"
+            )
 
             if language[0] == "ENG":
                 #Сообщение об успешной отправке(ENG)
-                await globals.bot.send_message(message.chat.id, 
-                        text="✅Message sent successfully!")
+                await message.answer(text="✅Message sent successfully!")
 
             elif language[0] == "RU":
                 #Сообщение об успешной отправке(RU)
-                await globals.bot.send_message(message.chat.id, 
-                        text="✅Сообщение успешно отправлено!")
+                await message.answer(text="✅Сообщение успешно отправлено!")
                     
         await Userstate.try_try.set()
 
@@ -266,12 +266,12 @@ async def send_message1(message: types.Message, state:FSMContext):
         await globals.rep_comm[message.text](message)
     else:
         if not message.text.isdigit():
-            await globals.bot.send_message(message.chat.id, 
+            await message.answer(
                     text="❗️ID должно содержать только цифры!")
             await Userstate.send_message_func1.set()
         else:
             await state.update_data(id_user_var=str(message.text))
-            await globals.bot.send_message(message.chat.id, 
+            await message.answer( 
                     text="📧Введите сообщение:")
             await Userstate.send_message_func2.set()
 
@@ -289,10 +289,10 @@ async def send_message2(message: types.Message, state:FSMContext):
         _id = data.get("id_user_var")
         try:
             await globals.bot.send_message(int(_id), message.text)
-            await globals.bot.send_message(message.chat.id, 
+            await message.answer(
                     text="✅Сообщение успешно отправлено!")
-        except:await globals.bot.send_message(message.chat.id, 
-            text="👁Неправильный ID или пользователь заблокировал бота!")
+        except:await message.answer(
+                text="👁Неправильный ID или пользователь заблокировал бота!")
         await Userstate.try_try.set()
 
 #CALLBACK ----------> ########################################################
@@ -311,39 +311,47 @@ async def knopki(call: types.CallbackQuery, state: FSMContext):
         try:
             await globals.my_class.stop(str(userID))
             await globals.bot.edit_message_text(
-                            chat_id = call.message.chat.id, 
-                            message_id = call.message.message_id, 
-                            text =  message)
+                        chat_id = call.message.chat.id, 
+                        message_id = call.message.message_id, 
+                        text =  message)
         except UnboundLocalError:
             await globals.my_class.stop(str(userID))
             await globals.bot.edit_message_text(
-                            chat_id = call.message.chat.id, 
-                            message_id = call.message.message_id, 
-                            text =  message)
+                        chat_id = call.message.chat.id, 
+                        message_id = call.message.message_id, 
+                        text =  message)
     
     elif call.data == "Рассылка":
         usl = InlineKeyboardMarkup(
             inline_keyboard=[
-                [InlineKeyboardButton(text = "📧Сообщение", 
-                                      callback_data = "Сообщение")], 
-                [InlineKeyboardButton(text = "🖼Изображение", 
-                                      callback_data = "Изображение")]
+                [InlineKeyboardButton(
+                        text = "📧Сообщение", callback_data = "Сообщение")], 
+                [InlineKeyboardButton(
+                        text = "🖼Изображение", callback_data = "Изображение")]
             ])
-        await globals.bot.edit_message_text(chat_id = call.message.chat.id, 
-                                    message_id = call.message.message_id, 
-        text = "Выберите пункт👇🏼", reply_markup = usl)
+
+        await globals.bot.edit_message_text(
+                    chat_id = call.message.chat.id, 
+                    message_id = call.message.message_id, 
+                    text = "Выберите пункт👇🏼", 
+                    reply_markup = usl
+        )
         await Userstate.try_try.set()
 
     elif call.data == "Сообщение":
-        await globals.bot.edit_message_text(chat_id = call.message.chat.id, 
-                                       message_id = call.message.message_id, 
-        text = "📝Напишите сообщение:")
+        await globals.bot.edit_message_text(
+                    chat_id = call.message.chat.id, 
+                    message_id = call.message.message_id, 
+                    text = "📝Напишите сообщение:"
+        )
         await Userstate.send_messages.set()
 
     elif call.data == "Изображение":
-        await globals.bot.edit_message_text(chat_id = call.message.chat.id, 
-                                       message_id = call.message.message_id, 
-        text = "🖼Прикрепите изображние ➜")
+        await globals.bot.edit_message_text(
+                    chat_id = call.message.chat.id, 
+                    message_id = call.message.message_id, 
+                    text = "🖼Прикрепите изображние ➜"
+        )
         await Userstate.send_messages.set()
 
     elif call.data == "ENG":
@@ -352,9 +360,11 @@ async def knopki(call: types.CallbackQuery, state: FSMContext):
         ).where(all_users_table.c.user_id==userID)
         globals.conn.execute(update_data)
 
-        await globals.bot.edit_message_text(chat_id = call.message.chat.id, 
-                                       message_id = call.message.message_id, 
-                                       text = "🌐Russian ➜ English")
+        await globals.bot.edit_message_text(
+                    chat_id = call.message.chat.id, 
+                    message_id = call.message.message_id, 
+                    text = "🌐Russian ➜ English"
+        )
         usl = ReplyKeyboardMarkup(
             keyboard = [
                 ["⚠️COVID-19 statistics"], 
@@ -365,34 +375,43 @@ async def knopki(call: types.CallbackQuery, state: FSMContext):
             ], 
             resize_keyboard = True
         )
-        await globals.bot.send_message(call.message.chat.id, 
-                               text="🤖Universal Bot\n\nSelect an action👇🏼", 
-                               reply_markup = usl)
+        await globals.bot.send_message(
+                    call.message.chat.id,
+                    text="🤖Universal Bot\n\nSelect an action👇🏼", 
+                    reply_markup = usl)
     
     elif call.data == "RU":
 
         update_language = all_users_table.update().values(language="RU")
         globals.conn.execute(update_language)
 
-        await globals.bot.edit_message_text(chat_id = call.message.chat.id, 
-                                    message_id = call.message.message_id, 
-                                    text = "🌐Английский ➜ Русский")
+        await globals.bot.edit_message_text(
+                    chat_id = call.message.chat.id, 
+                    message_id = call.message.message_id, 
+                    text = "🌐Английский ➜ Русский"
+        )
+
         usl = ReplyKeyboardMarkup(
-        keyboard = [
-            #["🔔Участвовать в конкурсе"],
-            ["⚠️Статистика COVID-19"], 
-            ["💣Атаковать номер"],
-            ["🌐Изменить язык"], 
-            ["✉️Написать сообщение"]], 
-        resize_keyboard = True)
-        await globals.bot.send_message(call.message.chat.id, 
-                               text="🤖Universal Bot\n\nВыберите действие👇🏼", 
-                               reply_markup = usl)
+                    keyboard = [
+                            #["🔔Участвовать в конкурсе"],
+                            ["⚠️Статистика COVID-19"], 
+                            ["💣Атаковать номер"],
+                            ["🌐Изменить язык"], 
+                            ["✉️Написать сообщение"]], 
+                            resize_keyboard = True
+                            )
+
+        await globals.bot.send_message(
+                    call.message.chat.id,
+                    text="🤖Universal Bot\n\nВыберите действие👇🏼", 
+                    reply_markup = usl)
 
     elif call.data == "Отправить сообщение(ID)":
-        await globals.bot.edit_message_text(chat_id = call.message.chat.id, 
-                                    message_id = call.message.message_id, 
-                                    text = "👁‍🗨Введите ID пользователя:")
+        await globals.bot.edit_message_text(
+                    chat_id = call.message.chat.id, 
+                    message_id = call.message.message_id, 
+                    text = "👁‍🗨Введите ID пользователя:"
+        )
         await Userstate.send_message_func1.set()
 
     elif call.data == "Загрузить программу":
@@ -404,9 +423,10 @@ async def knopki(call: types.CallbackQuery, state: FSMContext):
                 crator_program = open(r"program/%s" % program, "rb")
         
                 await globals.bot.edit_message_text(
-                        chat_id = call.message.chat.id, 
-                        message_id = call.message.message_id, 
-                        text = "🔄Дождитесь загрузки...")
+                            chat_id = call.message.chat.id, 
+                            message_id = call.message.message_id, 
+                            text = "🔄Дождитесь загрузки..."
+                )
 
                 await globals.bot.send_chat_action(
                 call.message.chat.id, 'typing')

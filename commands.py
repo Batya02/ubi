@@ -43,7 +43,7 @@ async def own_start(message: types.Message):
 
     if my_data == []:
 
-        date_reg = dt.strftime(dt.now(), "%d-%m-%Y %H:%M:%S:")
+        date_reg = dt.strftime(dt.now(), "%d-%m-%Y %H:%M:%S")
 
         user_id = message.from_user.id
         username = str(message.from_user.username)
@@ -70,10 +70,11 @@ async def own_start(message: types.Message):
                 [InlineKeyboardButton(text="🇷🇺RU", callback_data="RU")]
             ])
 
-        await globals.bot.send_message(message.chat.id, 
-                            text="🌐Select the language\n"+\
-                                 "🌐Выберите язык",
-                            reply_markup=lang_usl)
+        await message.answer(
+                text="🌐Select the language\n"+\
+                "🌐Выберите язык",
+                reply_markup=lang_usl
+        )
     else:
         language = my_data[0][3]
 
@@ -85,7 +86,7 @@ async def own_start(message: types.Message):
                 ]
             )
 
-            await globals.bot.send_message(message.chat.id, 
+            await message.answer(
                     text=f"🌐Select the language\n"
                     f"🌐Выберите язык",
                     reply_markup=lang_usl
@@ -105,6 +106,7 @@ async def ru_start(message: types.Message):
     Функция отправляет основные команды для рускоязычных пользователей.
     Вызывается в условии в own_start()
     '''
+
     usl = ReplyKeyboardMarkup(
         keyboard = [
             #["🔔Участвовать в конкурсе"],
@@ -115,9 +117,10 @@ async def ru_start(message: types.Message):
         ], 
         resize_keyboard = True
     )
-    await globals.bot.send_message(message.chat.id, 
+    await message.answer(
             text="🤖Universal Bot\n\nВыберите действие👇🏼", 
-            reply_markup = usl)
+            reply_markup = usl
+    )
 
 @logger.catch
 async def eng_start(message: types.Message):
@@ -125,6 +128,7 @@ async def eng_start(message: types.Message):
     Функция отправляет основные команды для англоязычных пользователей.
     Вызывается в условии в own_start()
     '''
+
     usl = ReplyKeyboardMarkup(
         keyboard = [
             ["⚠️COVID-19 statistics"], 
@@ -135,9 +139,11 @@ async def eng_start(message: types.Message):
         ], 
         resize_keyboard = True
     )
-    await globals.bot.send_message(message.chat.id, 
-                           text="🤖Universal Bot\n\nSelect an action👇🏼", 
-                           reply_markup = usl)
+
+    await message.answer(
+            text="🤖Universal Bot\n\nSelect an action👇🏼", 
+            reply_markup = usl
+    )
 
 @logger.catch
 async def ru_covid_19(message: types.Message):
@@ -152,15 +158,15 @@ async def ru_covid_19(message: types.Message):
     line1 = soup.find_all("div", class_ = "cv-countdown__item-value")
     date  = dt.strftime(dt.now(), "Дата: *%d-%m-%Y* - Время: *%H:%M:%S*")
 
-    await globals.bot.send_message(
-                message.chat.id, 
-                text=str(date)+" - Страна: *Россия*\n\n"+\
-                f"1️⃣ Проведено тестов: *{line1[0].text}*\n"
-                f"2️⃣ Случаев заболевания: *{line1[1].text}*\n"
-                f"3️⃣ Случаев заболевания за последние сутки: *{line1[2].text}*\n"
-                f"4️⃣ Человек выздоровело: *{line1[3].text}*\n"
-                f"5️⃣ Человека умерло: *{line1[4].text}*", 
-                parse_mode = "Markdown")
+    await message.answer(
+            text=str(date)+" - Страна: *Россия*\n\n"+\
+            f"1️⃣ Проведено тестов: *{line1[0].text}*\n"
+            f"2️⃣ Случаев заболевания: *{line1[1].text}*\n"
+            f"3️⃣ Случаев заболевания за последние сутки: *{line1[2].text}*\n"
+            f"4️⃣ Человек выздоровело: *{line1[3].text}*\n"
+            f"5️⃣ Человека умерло: *{line1[4].text}*", 
+            parse_mode = "Markdown"
+    )
 
 @logger.catch
 async def eng_covid_19(message: types.Message):
@@ -173,16 +179,17 @@ async def eng_covid_19(message: types.Message):
     html = r.text
     soup = BeautifulSoup(html, "lxml")
     line1 = soup.find_all("div", class_ = "cv-countdown__item-value")
-    await globals.bot.send_message(
-                message.chat.id, 
-                text=dt.strftime(dt.now(), 
-                        "Date: *%d-%m-%Y* - Time: *%H:%M:%S*")+" - Country: *Russia*\n\n"
-                f"1️⃣ Tests performed: *{line1[0].text[:-4]}mln*\n"
-                f"2️⃣ Disease cases: *{line1[1].text}*\n"
-                f"3️⃣ Disease cases in the last 24 hours: *{line1[2].text}*\n"
-                f"4️⃣ Man recovered: *{line1[3].text}*\n"
-                f"5️⃣ The person died: *{line1[4].text}*", 
-                parse_mode = "Markdown")
+
+    await message.answer(
+            text=dt.strftime(dt.now(), 
+            "Date: *%d-%m-%Y* - Time: *%H:%M:%S*")+" - Country: *Russia*\n\n"
+            f"1️⃣ Tests performed: *{line1[0].text[:-4]}mln*\n"
+            f"2️⃣ Disease cases: *{line1[1].text}*\n"
+            f"3️⃣ Disease cases in the last 24 hours: *{line1[2].text}*\n"
+            f"4️⃣ Man recovered: *{line1[3].text}*\n"
+            f"5️⃣ The person died: *{line1[4].text}*", 
+            parse_mode = "Markdown"
+    )
 
 @logger.catch
 async def ru_currency(message: types.Message):
@@ -234,27 +241,28 @@ async def ru_currency(message: types.Message):
     bnb = json.loads(bnb_soup.replace("</script>", "").replace('<script id="__APP_DATA" type="application/json">', ""))
     bnb = bnb["pageData"]["redux"]["products"]["currentProduct"]["close"]
     try:
-        await globals.bot.send_message(message.chat.id,
-        text=f"💵Доллар: *"+str(dollar.text)+"*\n"
-        f"💶Евро: *{euro.text}*\n"
-        f"🛢Нефть: *{oil.text}*\n\n"
-        f"💎Криптовалюта:\n"
-        f"BTC: `{btc.text}$`\n"
-        f"ETH: `{eth.text}$`\n"
-        f"XRP: `{xrp.text}$`\n"
-        f"BNB: `{bnb}$`",
-        parse_mode = "Markdown")
+        await message.answer(
+                text=f"💵Доллар: *"+str(dollar.text)+"*\n"
+                f"💶Евро: *{euro.text}*\n"
+                f"🛢Нефть: *{oil.text}*\n\n"
+                f"💎Криптовалюта:\n"
+                f"BTC: `{btc.text}$`\n"
+                f"ETH: `{eth.text}$`\n"
+                f"XRP: `{xrp.text}$`\n"
+                f"BNB: `{bnb}$`",
+                parse_mode = "Markdown")
     except Exception as e:
-        logger.error(e)
-        await globals.bot.send_message(message.chat.id, 
-        text=f"💵Доллар: *{dollar.text}*\n"
-        f"💶Евро: *{euro.text}*\n"
-        f"🛢Нефть: *{oil.text}*\n\n"
-        f"💎Криптовалюта:\n"
-        f"BTC: `{btc.text}$`\n"
-        f"ETH: `{eth.text}$`\n"
-        f"XRP: `{xrp.text}$`", 
-        parse_mode = "Markdown")
+        logger.error(e) #Ловля ошибки
+        await message.asnwer(
+                text=f"💵Доллар: *{dollar.text}*\n"
+                f"💶Евро: *{euro.text}*\n"
+                f"🛢Нефть: *{oil.text}*\n\n"
+                f"💎Криптовалюта:\n"
+                f"BTC: `{btc.text}$`\n"
+                f"ETH: `{eth.text}$`\n"
+                f"XRP: `{xrp.text}$`", 
+                parse_mode = "Markdown"
+        )
 
 @logger.catch
 async def eng_currency(message: types.Message):
@@ -306,26 +314,28 @@ async def eng_currency(message: types.Message):
     bnb = bnb_soup.find("span", class_ = "cmc-details-panel-price__price")
 
     try:
-        await globals.bot.send_message(message.chat.id, 
-        text=f"💵Dollar: *{dollar.text}*\n"
-        f"💶Euro: *{euro.text}*\n"
-        f"🛢OIL: *{oil.text}*\n\n"
-        f"💎Cryptocurrency:\n"
-        f"BTC: `{btc.text}$`\n"
-        f"ETH: `{eth.text}$`\n"
-        f"XRP: `{xrp.text}$`\n"
-        f"BNB: `{bnb.text[1:]}$`", 
-        parse_mode = "Markdown")
+        await message.answer(
+                text=f"💵Dollar: *{dollar.text}*\n"
+                f"💶Euro: *{euro.text}*\n"
+                f"🛢OIL: *{oil.text}*\n\n"
+                f"💎Cryptocurrency:\n"
+                f"BTC: `{btc.text}$`\n"
+                f"ETH: `{eth.text}$`\n"
+                f"XRP: `{xrp.text}$`\n"
+                f"BNB: `{bnb.text[1:]}$`", 
+                parse_mode = "Markdown"
+        )
     except:
-        await globals.bot.send_message(message.chat.id, 
-        text=f"💵Dollar: *{dollar.text}*\n"
-        f"💶Euro: *{euro.text}*\n"
-        f"🛢OIL: *{oil.text}*\n\n"
-        f"💎Cryptocurrency:\n"
-        f"BTC: `{btc.text}$`\n"
-        f"ETH: `{eth.text}$`\n"
-        f"XRP: `{xrp.text}$`", 
-        parse_mode = "Markdown")
+        await message.answer(
+                text=f"💵Dollar: *{dollar.text}*\n"
+                f"💶Euro: *{euro.text}*\n"
+                f"🛢OIL: *{oil.text}*\n\n"
+                f"💎Cryptocurrency:\n"
+                f"BTC: `{btc.text}$`\n"
+                f"ETH: `{eth.text}$`\n"
+                f"XRP: `{xrp.text}$`", 
+                parse_mode = "Markdown"
+        )
 
 @logger.catch
 async def get_currency_usd(message: types.Message):
@@ -349,19 +359,17 @@ async def get_currency_usd(message: types.Message):
         low_price = usd["low"]
         high_price = usd["high"]
 
-        await globals.bot.send_message(
-            message.chat.id, 
-            text=f"*{symbol}*\n"
-            f"_Now_: `{close_price}`\n"
-            f"_Min_: *{low_price}*\n"
-            f"_Max_: *{high_price}*", 
-            parse_mode="Markdown"
+        await message.answer(
+                text=f"*{symbol}*\n"
+                f"_Now_: `{close_price}`\n"
+                f"_Min_: *{low_price}*\n"
+                f"_Max_: *{high_price}*", 
+                parse_mode="Markdown"
         )
     except Exception as e:
-        await globals.bot.send_message(
-            message.chat.id, 
-            text=f"⚠️Ошибка при отправке запроса...\n"
-            f"Информация об ошибке ➔ {e}"
+        await message.answer(
+                text=f"⚠️Ошибка при отправке запроса...\n"
+                f"Информация об ошибке ➔ {e}"
         )
 
 @logger.catch
@@ -386,19 +394,17 @@ async def get_currency_btc(message: types.Message):
         low_price = btc["low"]
         high_price = btc["high"]
 
-        await globals.bot.send_message(
-            message.chat.id, 
-            text=f"*{symbol}*\n"
-            f"_Now_: `{close_price}`\n"
-            f"_Min_: *{low_price}*\n"
-            f"_Max_: *{high_price}*", 
-            parse_mode="Markdown"
+        await message.answer(
+                text=f"*{symbol}*\n"
+                f"_Now_: `{close_price}`\n"
+                f"_Min_: *{low_price}*\n"
+                f"_Max_: *{high_price}*", 
+                parse_mode="Markdown"
         )
     except Exception as e:
-        await globals.bot.send_message(
-            message.chat.id, 
-            text=f"⚠️Ошибка при отправке запроса...\n"
-            f"Информация об ошибке ➔ {e}"
+        await message.answer(
+                text=f"⚠️Ошибка при отправке запроса...\n"
+                f"Информация об ошибке ➔ {e}"
         )
 
 @logger.catch
@@ -423,19 +429,17 @@ async def get_currency_eth(message: types.Message):
         low_price = eth["low"]
         high_price = eth["high"]
 
-        await globals.bot.send_message(
-            message.chat.id, 
-            text=f"*{symbol}*\n"
-            f"_Now_: `{close_price}`\n"
-            f"_Min_: *{low_price}*\n"
-            f"_Max_: *{high_price}*", 
-            parse_mode="Markdown"
+        await message.answer(
+                text=f"*{symbol}*\n"
+                f"_Now_: `{close_price}`\n"
+                f"_Min_: *{low_price}*\n"
+                f"_Max_: *{high_price}*", 
+                parse_mode="Markdown"
         )
     except Exception as e:
-        await globals.bot.send_message(
-            message.chat.id, 
-            text=f"⚠️Ошибка при отправке запроса...\n"
-            f"Информация об ошибке ➔ {e}"
+        await message.answer(
+                text=f"⚠️Ошибка при отправке запроса...\n"
+                f"Информация об ошибке ➔ {e}"
         )
 
 @logger.catch
@@ -460,19 +464,17 @@ async def get_currency_bnb(message: types.Message):
         low_price = bnb["low"]
         high_price = bnb["high"]
 
-        await globals.bot.send_message(
-            message.chat.id, 
-            text=f"*{symbol}*\n"
-            f"_Now_: `{close_price}`\n"
-            f"_Min_: *{low_price}*\n"
-            f"_Max_: *{high_price}*", 
-            parse_mode="Markdown"
+        await message.answer(
+                text=f"*{symbol}*\n"
+                f"_Now_: `{close_price}`\n"
+                f"_Min_: *{low_price}*\n"
+                f"_Max_: *{high_price}*", 
+                parse_mode="Markdown"
         )
     except Exception as e:
-        await globals.bot.send_message(
-            message.chat.id, 
-            text=f"⚠️Ошибка при отправке запроса...\n"
-            f"Информация об ошибке ➔ {e}"
+        await message.answer(
+                text=f"⚠️Ошибка при отправке запроса...\n"
+                f"Информация об ошибке ➔ {e}"
         )
 
 @logger.catch
@@ -486,16 +488,16 @@ async def adm(message: types.Message):
     if str(message.from_user.id) == str(globals.config.chat_id):
         usl = InlineKeyboardMarkup(
             inline_keyboard=[
-                [InlineKeyboardButton(text = "📣Рассылка", 
-                                    callback_data = "Рассылка")],
-                [InlineKeyboardButton(text = "📧Отправить сообщение(ID)", 
-                                    callback_data= "Отправить сообщение(ID)")]
+                [InlineKeyboardButton(
+                        text = "📣Рассылка", callback_data = "Рассылка")],
+                [InlineKeyboardButton(
+                        text = "📧Отправить сообщение(ID)", callback_data= "Отправить сообщение(ID)")]
             ]
         )
 
-        await globals.bot.send_message(message.chat.id, 
-                               text="🤖Universal Bot\n\nВыберите действие👇🏼", 
-                               reply_markup = usl)
+        await message.answer(
+                text="🤖Universal Bot\n\nВыберите действие👇🏼", 
+                reply_markup = usl)
         await Userstate.try_try.set()
     else:pass
 
@@ -506,10 +508,10 @@ async def ru_send_message(message: types.Message):
     Рускоязычные пользователи.
     '''
 
-    await globals.bot.send_message(message.chat.id, 
-    f"🔑Мы полностью заботимся о конфиденциальности пользователя, "
-    f"поэтому интегрировали функцию отправки сообщения через бота!\n\n "
-    f"Напишите сообщение:")
+    await message.answer(
+            f"🔑Мы полностью заботимся о конфиденциальности пользователя, "
+            f"поэтому интегрировали функцию отправки сообщения через бота!\n\n "
+            f"Напишите сообщение:")
     await Userstate.send_message.set()
 
 @logger.catch
@@ -519,10 +521,10 @@ async def eng_send_message(message: types.Message):
     Англоязычные пользователи.
     '''
 
-    await globals.bot.send_message(message.chat.id,
-    f"🔑We completely care about user privacy, "
-    f"so we integrated the function of sending a message through a bot!\n\n "
-    f"Write a message:")
+    await message.answer(
+            f"🔑We completely care about user privacy, "
+            f"so we integrated the function of sending a message through a bot!\n\n "
+            f"Write a message:")
     await Userstate.send_message.set()
 
 @logger.catch
@@ -541,10 +543,11 @@ async def change_language(message:types.Message):
         ]
     )
 
-    await globals.bot.send_message(message.chat.id, 
-                           text = f"🌐Select the language\n"
-                                  f"🌐Выберите язык", 
-    reply_markup=change_language_usl)
+    await message.answer(
+            text = f"🌐Select the language\n"
+            f"🌐Выберите язык", 
+            reply_markup=change_language_usl
+    )
 
 @logger.catch
 async def ru_attack_phone(message: types.Message):
@@ -569,28 +572,25 @@ async def ru_attack_phone(message: types.Message):
         date = dt.strftime(dt.now(), "%d-%m-%Y %H:%M:%S")
 
         update_data = data_users_table.insert().values(
-            user_id=user_id, 
-            date=date, 
-            status=30, 
-            last_phone="None", 
-            last_date="None"
+                user_id=user_id, date=date, 
+                status=30, last_phone="None", 
+                last_date="None"
         )
         globals.conn.execute(update_data)
 
         await message.answer(
-            user_id, 
-            text=f"✅Вы зарегестрированы! Вам доступно 30 кругов."
-            f"Нажмите еще раз на кнопку 💣Атаковать номер"
+                text=f"✅Вы зарегестрированы! Вам доступно 30 кругов."
+                f"Нажмите еще раз на кнопку 💣Атаковать номер"
         )
 
     else:
 
         download_program = InlineKeyboardMarkup(
             inline_keyboard=[
-                    [InlineKeyboardButton(text="⬇️Загрузить программу", 
-                                    callback_data="Загрузить программу")], 
-                    [InlineKeyboardButton(text="❔Информация о программе", 
-                                    callback_data="Информация о программе")]
+                    [InlineKeyboardButton(
+                            text="⬇️Загрузить программу", callback_data="Загрузить программу")], 
+                    [InlineKeyboardButton(
+                            text="❔Информация о программе", callback_data="Информация о программе")]
             ]
         )
 
@@ -682,11 +682,9 @@ async def eng_attack_phone(message: types.Message):
         date = dt.strftime(dt.now(), "%d-%m-%Y %H:%M:%S")
 
         update_data = data_users_table.insert().values(
-            user_id=user_id, 
-            date=date, 
-            status=30, 
-            last_phone="None", 
-            last_date="None"
+                user_id=user_id, date=date, 
+                status=30, last_phone="None", 
+                last_date="None"
         )
         globals.conn.execute(update_data)
 
@@ -699,10 +697,10 @@ async def eng_attack_phone(message: types.Message):
     else:
         download_program = InlineKeyboardMarkup(
             inline_keyboard=[
-                    [InlineKeyboardButton(text="⬇️Download the program", 
-                                    callback_data="Download the program")], 
-                    [InlineKeyboardButton(text="❔Info about the program", 
-                                    callback_data="Info about the program")]
+                    [InlineKeyboardButton(
+                            text="⬇️Download the program", callback_data="Download the program")], 
+                    [InlineKeyboardButton(
+                            text="❔Info about the program", callback_data="Info about the program")]
             ]
         )
 
@@ -759,11 +757,11 @@ async def eng_attack_phone(message: types.Message):
                 
                 else:
                     await message.answer(
-                        f"📄Information about the last attack ➜\n\n"
-                        f"🕰{date}\n📌Phone number: `{my_data[3]}`\n"
-                        f"⏱Circles left: *{my_data[2]}*\n\n"
-                        "☎️Enter the victim's phone number⤵️", 
-                        parse_mode = "Markdown"
+                            f"📄Information about the last attack ➜\n\n"
+                            f"🕰{date}\n📌Phone number: `{my_data[3]}`\n"
+                            f"⏱Circles left: *{my_data[2]}*\n\n"
+                            "☎️Enter the victim's phone number⤵️", 
+                            parse_mode = "Markdown"
                     )
                     await Userstate.attack_phone.set()
 
